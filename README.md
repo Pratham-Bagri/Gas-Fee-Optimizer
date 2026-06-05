@@ -1,6 +1,6 @@
 # Kriti Web3 Batch Transaction App
 
-## 📌 Overview
+## Overview
 
 This project is a **Web3 batch transaction application** that allows a user to queue multiple smart contract interactions and execute them in a single blockchain transaction via a relayer.
 
@@ -11,7 +11,7 @@ It consists of two main parts:
 
 ---
 
-## 🚀 Key Features
+## Key Features
 
 * Connect wallet using browser provider (e.g., MetaMask)
 * Fetch smart contract ABI dynamically (via Etherscan API)
@@ -22,7 +22,7 @@ It consists of two main parts:
 
 ---
 
-## 🏗️ Project Structure
+## Project Structure
 
 ```
 Kriti-Web3-main/
@@ -44,7 +44,7 @@ Kriti-Web3-main/
 
 ---
 
-## ⚙️ Tech Stack
+## Tech Stack
 
 ### Frontend
 
@@ -61,7 +61,7 @@ Kriti-Web3-main/
 
 ---
 
-## 🔄 How It Works
+## How It Works
 
 ### Step 1: Wallet Connection
 
@@ -98,7 +98,7 @@ Relayer:
 
 ---
 
-## 🔐 Smart Contract Interaction
+## Smart Contract Interaction
 
 The backend interacts with a deployed contract that exposes:
 
@@ -109,7 +109,7 @@ nonces(address user)
 
 ---
 
-## 🛠️ Installation & Setup
+## Installation & Setup
 
 ### 1. Clone the Repository
 
@@ -141,7 +141,7 @@ BATCH_CONTRACT_ADDRESS=<contract_address>
 
 ---
 
-## ▶️ Running the Project
+## Running the Project
 
 ### Start Backend
 
@@ -162,7 +162,7 @@ Runs on: `http://localhost:5173`
 
 ---
 
-## 🌐 Environment Configuration
+## Environment Configuration
 
 In `App.jsx`:
 
@@ -172,7 +172,7 @@ In `App.jsx`:
 
 ---
 
-## ⚠️ Important Notes
+## Important Notes
 
 * Never expose your relayer private key publicly
 * Ensure correct network (Sepolia/Mainnet)
@@ -181,7 +181,7 @@ In `App.jsx`:
 
 ---
 
-## 🧪 Possible Improvements
+## Possible Improvements
 
 * Add nonce validation before submission
 * UI enhancements (better UX for batching)
@@ -192,7 +192,7 @@ In `App.jsx`:
 
 ---
 
-## 📌 Use Cases
+## Use Cases
 
 * Gas optimization
 * DeFi batch operations
@@ -201,12 +201,8 @@ In `App.jsx`:
 
 ---
 
-## 📄 Conclusion
+## Conclusion
 
 This project demonstrates a **gas-abstracted Web3 interaction model** using a relayer and batch execution. It is a strong foundation for building advanced dApps with improved user experience.
 
 ---
-
-## 👨‍💻 Author Notes
-
-This is a development/demo-level project and should be extended with security and validation before production use.
