@@ -97,27 +97,33 @@ contract Web3AssamBatchExecutor is EIP712, ReentrancyGuard {
         // INCREMENT SEQUENTIAL NONCE
         nonces[batch.user]++;
 
+        // TRACK TOTAL VALUE SENT
+        uint256 totalValueTransferred = 0;
 
         // EXECUTE BATCH, REVERT ENTIRE BATCH IF ONE TRANSACTION FAILS
         for (uint256 i = 0; i < length; i++) {
+            totalValueTransferred += batch.values[i];
+            
             (bool success, ) = batch.targets[i].call{value: batch.values[i]}(batch.payloads[i]);
             if (!success) revert BatchExecutionFailed(i);
         }
 
-        // CALCULATE AND DEDUCT GAS SPONSORSHIP
+        // CALCULATE GAS SPONSORSHIP
         uint256 gasUsed = startGas - gasleft() + GAS_OVERHEAD;
-        
-        // Convert gas units to actual ETH cost
         uint256 totalGasCost = gasUsed * tx.gasprice;
-        
-        // Calculate the percentage the user owes
         uint256 userGasCost = (totalGasCost * userGasPercentage) / 100;
 
-        // Revert the entire transaction if the user can't pay the gas fee
-        if (balances[batch.user] < userGasCost) revert InsufficientBalance();
+        // CALCULATE TOTAL DEDUCTION (Gas + Value Sent)
+        uint256 totalDeduction = totalValueTransferred + userGasCost;
+
+        // REVERT IF USER CANNOT AFFORD BOTH
+        if (balances[batch.user] < totalDeduction) revert InsufficientBalance();
         
-        balances[batch.user] -= userGasCost;          // Deduct from user
-        balances[msg.sender] += userGasCost;          // Credit to the Relayer's internal balance
+        // DEDUCT FROM USER
+        balances[batch.user] -= totalDeduction;         
+        
+        // CREDIT THE RELAYER (Only for the gas they paid, the value already left the contract)
+        balances[msg.sender] += userGasCost;          
 
         emit BatchExecuted(batch.user, userGasCost);
     }
