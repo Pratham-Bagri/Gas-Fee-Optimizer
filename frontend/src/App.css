@@ -1,0 +1,381 @@
+/* --- GLOBAL LAYOUT --- */
+.app-container {
+  height: 100vh;
+  width: 100vw;
+  background-color: #09090b;
+  color: #f4f4f5;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+/* --- HEADER --- */
+.header {
+  height: 80px;
+  border-bottom: 1px solid #27272a;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 32px;
+  flex-shrink: 0;
+  background: #09090b;
+}
+
+.header-title {
+  font-size: 1.5rem;
+  font-weight: 800;
+  margin: 0;
+  background: linear-gradient(to right, #818cf8, #c084fc);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.status-badge {
+  color: #34d399;
+  font-size: 0.85rem;
+  background: #022c22;
+  padding: 8px 16px;
+  border-radius: 20px;
+  border: 1px solid #059669;
+}
+
+.btn-connect {
+  padding: 10px 24px;
+  background: #6366f1;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.account-pill {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  background: #18181b;
+  padding: 8px 16px;
+  border-radius: 10px;
+  border: 1px solid #27272a;
+}
+
+/* --- MAIN DASHBOARD --- */
+.main-grid {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  padding: 24px;
+  overflow: hidden;
+}
+
+.left-column {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  overflow: hidden;
+}
+
+.card {
+  background: #18181b;
+  border: 1px solid #27272a;
+  border-radius: 16px;
+  padding: 24px;
+  flex-shrink: 0;
+}
+
+.card-title {
+  margin-top: 0;
+  font-size: 1.1rem;
+  color: #e4e4e7;
+  margin-bottom: 15px;
+}
+
+/* --- ESCROW SECTION --- */
+.escrow-row {
+  display: flex;
+  gap: 10px;
+}
+
+.escrow-input-group {
+  display: flex;
+  flex: 1;
+  min-width: 0;
+  gap: 5px;
+  background: #09090b;
+  padding: 6px;
+  border-radius: 8px;
+  border: 1px solid #27272a;
+}
+
+.escrow-input {
+  flex: 1;
+  min-width: 0;
+  background: transparent;
+  border: none;
+  color: #fff;
+  padding: 4px 8px;
+  outline: none;
+}
+
+.btn-deposit {
+  padding: 6px 12px;
+  background: #10b981;
+  color: #000;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+.btn-withdraw {
+  padding: 6px 12px;
+  background: #27272a;
+  color: #fff;
+  border: 1px solid #3f3f46;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+/* --- BUILDER SECTION --- */
+.builder-card {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  overflow: hidden;
+}
+
+.builder-top-row {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+  flex-shrink: 0;
+}
+
+.input-target {
+  flex: 1;
+  padding: 12px;
+  background: #09090b;
+  border: 1px solid #3f3f46;
+  border-radius: 8px;
+  color: #fff;
+  outline: none;
+}
+
+.btn-fetch {
+  padding: 12px 20px;
+  background: #3b82f6;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.builder-content {
+  flex: 1;
+  overflow-y: auto;
+  padding-right: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.builder-form {
+  background: #09090b;
+  padding: 20px;
+  border-radius: 12px;
+  border: 1px solid #27272a;
+  flex: 1;
+}
+
+.select-field {
+  width: 100%;
+  padding: 12px;
+  background: #18181b;
+  border: 1px solid #3f3f46;
+  color: #fff;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  outline: none;
+}
+
+.param-inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.input-param {
+  padding: 12px;
+  background: #18181b;
+  border: 1px solid #3f3f46;
+  color: #fff;
+  border-radius: 8px;
+  outline: none;
+}
+
+.input-eth {
+  border-color: #10b981;
+}
+
+.btn-add-queue {
+  padding: 14px;
+  background: #fff;
+  color: #000;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 10px;
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+/* --- RIGHT COLUMN (QUEUE) --- */
+.queue-column {
+  background: linear-gradient(145deg, #1e1b4b, #0f172a);
+  border: 1px solid #3730a3;
+  border-radius: 16px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.queue-header {
+  margin-top: 0;
+  color: #e0e7ff;
+  display: flex;
+  justify-content: space-between;
+  flex-shrink: 0;
+}
+
+.queue-count {
+  background: #3730a3;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+}
+
+.queue-list-container {
+  flex: 1;
+  overflow-y: auto;
+  margin: 20px 0;
+  padding-right: 10px;
+}
+
+.empty-queue {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #818cf8;
+  font-style: italic;
+}
+
+.queue-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.queue-item {
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid #312e81;
+  margin: 0 0 12px 0;
+  padding: 16px;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.queue-item-header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.queue-item-name {
+  color: #a5b4fc;
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+.queue-item-value {
+  color: #10b981;
+  font-weight: bold;
+}
+
+.queue-item-target {
+  color: #818cf8;
+  font-size: 0.85rem;
+  font-family: monospace;
+  word-break: break-all;
+}
+
+/* --- QUEUE ACTIONS --- */
+.queue-actions {
+  flex-shrink: 0;
+  display: flex;
+  gap: 15px;
+}
+
+.btn-execute {
+  flex: 3;
+  padding: 18px;
+  background: #6366f1;
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 1.1rem;
+  transition: all 0.2s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.btn-execute:disabled {
+  background: #312e81;
+  color: #6366f1;
+  cursor: not-allowed;
+}
+
+.btn-execute.processing {
+  background: #4338ca;
+  color: #fff;
+  cursor: not-allowed;
+}
+
+.btn-clear {
+  flex: 1;
+  padding: 18px;
+  background: transparent;
+  color: #fca5a5;
+  border: 1px solid #ef4444;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+/* --- SPINNER ANIMATION --- */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.spinner-svg {
+  animation: spin 1s linear infinite;
+}

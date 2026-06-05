@@ -1,208 +1,218 @@
-# Kriti Web3 Batch Transaction App
 
-## Overview
+# Gasless Meta Transaction Executor
 
-This project is a **Web3 batch transaction application** that allows a user to queue multiple smart contract interactions and execute them in a single blockchain transaction via a relayer.
+A full-stack Web3 system that enables **gasless batched Ethereum transactions** using **EIP-712 signatures** and a **relayer architecture**.
 
-It consists of two main parts:
+Users sign transactions **off-chain**, and a relayer submits them **on-chain**, allowing interaction with smart contracts **without directly paying gas fees**.
 
-* **Frontend (React + Vite)** → User interface for selecting contracts and batching calls
-* **Backend Relayer (Node.js + Express + Ethers.js)** → Submits transactions on behalf of users and pays gas
+This project demonstrates how meta-transactions improve **user experience in decentralized applications** by separating **transaction authorization** from **transaction execution**.
 
 ---
 
-## Key Features
+# Overview
 
-* Connect wallet using browser provider (e.g., MetaMask)
-* Fetch smart contract ABI dynamically (via Etherscan API)
-* Identify callable (write) functions
-* Queue multiple contract calls
-* Batch execution of transactions
-* Gasless UX using relayer
+The **Gasless Meta Transaction Executor** is built as a complete meta-transaction infrastructure consisting of:
 
----
+- A **smart contract** responsible for verifying signatures and executing batched transactions
+- A **relayer backend** that validates signed payloads and broadcasts transactions
+- A **React frontend** that allows users to build and sign transaction batches
 
-## Project Structure
-
-```
-Kriti-Web3-main/
-│
-├── src/                     # Frontend source code (React)
-│   ├── App.jsx             # Main application logic
-│   ├── main.jsx            # Entry point
-│   └── assets/             # Static assets
-│
-├── relayer-backend/        # Backend relayer service
-│   ├── server.js           # Express server + relay logic
-│   └── .env                # Environment variables
-│
-├── public/                 # Public assets
-├── index.html              # HTML template
-├── package.json            # Frontend dependencies
-└── vite.config.js          # Vite configuration
-```
+The system runs on the **Ethereum Sepolia testnet** and showcases a production-style architecture used in modern Web3 applications.
 
 ---
 
-## Tech Stack
+# Repository Structure
 
-### Frontend
+```
 
-* React 19
-* Vite
-* Ethers.js v6
+contracts/   Smart contract source code
+backend/     Node.js relayer API
+frontend/    React client application
+tests/       Scripts for testing and experimentation
 
-### Backend
+````
 
-* Node.js
-* Express.js
-* Ethers.js
-* dotenv
+Each component is designed to operate independently but integrates together to provide a complete gasless transaction workflow.
 
 ---
 
-## How It Works
+# System Architecture
 
-### Step 1: Wallet Connection
+The project follows a **meta-transaction workflow**:
 
-User connects their wallet using `window.ethereum`.
+1. The user constructs a batch of contract calls using the frontend interface.
+2. The frontend encodes these calls and generates an **EIP-712 typed signature**.
+3. The signed payload is sent to the **relayer backend**.
+4. The relayer validates the request and simulates the transaction.
+5. The relayer broadcasts the transaction to the blockchain.
+6. The smart contract verifies the signature and executes the batch.
 
-### Step 2: Contract Input
-
-User enters a contract address → App fetches ABI from Etherscan.
-
-### Step 3: Function Selection
-
-App parses ABI and extracts **write functions**.
-
-### Step 4: Queue Transactions
-
-User selects functions, fills inputs, and adds them to a batch queue.
-
-### Step 5: Signing
-
-User signs the batch data off-chain.
-
-### Step 6: Relayer Submission
-
-Frontend sends request to backend `/relay` endpoint.
-
-### Step 7: Execution
-
-Relayer:
-
-1. Gets user nonce from contract
-2. Calls `executeBatch(...)`
-3. Pays gas fees
-4. Returns transaction hash
+This architecture allows users to interact with smart contracts **without directly paying gas**, while still maintaining strong cryptographic security.
 
 ---
 
-## Smart Contract Interaction
+# Smart Contract
 
-The backend interacts with a deployed contract that exposes:
+The core contract (`Web3AssamBatchExecutor`) provides:
 
-```
-executeBatch(address user, address[] targets, bytes[] payloads, uint256[] values, bytes signature)
-nonces(address user)
-```
+- **EIP-712 signature verification**
+- **Batch execution of multiple contract calls**
+- **Replay protection using nonces**
+- **User escrow balance management**
+- **Gas sponsorship logic**
+
+Users deposit ETH into the contract escrow, which can be used during transaction execution.
 
 ---
 
-## Installation & Setup
+# Relayer Backend
 
-### 1. Clone the Repository
+The backend is a **Node.js + Express service** responsible for submitting transactions to the blockchain.
 
-```
-git clone <repo-url>
-cd Kriti-Web3-main
-```
+Main responsibilities:
 
-### 2. Install Frontend Dependencies
+- Receive signed batches from clients
+- Verify escrow balances on-chain
+- Simulate execution using `estimateGas`
+- Broadcast valid transactions
+- Return the transaction hash immediately
 
-```
+This allows the frontend to remain responsive while confirmations happen asynchronously.
+
+---
+
+# Frontend Application
+
+The frontend is built using **React + Vite** and provides the user interface for interacting with the system.
+
+Features include:
+
+- MetaMask wallet connection
+- Dynamic contract ABI fetching
+- Transaction batch builder
+- Function parameter encoding
+- EIP-712 signature generation
+- Relayer submission
+
+The frontend guides users through creating and signing batches of contract interactions.
+
+---
+
+# Technology Stack
+
+**Smart Contracts**
+- Solidity
+- OpenZeppelin libraries
+
+**Backend**
+- Node.js
+- Express
+- Ethers.js v6
+
+**Frontend**
+- React
+- Vite
+- Ethers.js
+
+**Network**
+- Ethereum Sepolia Testnet
+
+---
+
+# Getting Started
+
+## 1. Deploy the Smart Contract
+
+Deploy the batch executor contract using your preferred Solidity framework (Hardhat, Foundry, etc.).
+
+Save the deployed contract address for backend and frontend configuration.
+
+---
+
+## 2. Run the Relayer Backend
+
+```bash
+cd backend
 npm install
+````
+
+Create a `.env` file:
+
+```
+PORT=3001
+RPC_URL=your_rpc_endpoint
+RELAYER_PRIVATE_KEY=your_private_key
+CONTRACT_ADDRESS=deployed_contract_address
 ```
 
-### 3. Setup Backend
+Start the relayer:
 
+```bash
+npm run start
 ```
-cd relayer-backend
+
+---
+
+## 3. Run the Frontend
+
+```bash
+cd frontend
 npm install
 ```
 
 Create a `.env` file:
 
 ```
-RPC_URL=<your_rpc_url>
-RELAYER_PRIVATE_KEY=<your_private_key>
-BATCH_CONTRACT_ADDRESS=<contract_address>
+VITE_RELAYER_API_URL=http://localhost:3001/relay
 ```
 
----
+Start the development server:
 
-## Running the Project
-
-### Start Backend
-
-```
-cd relayer-backend
-node server.js
-```
-
-Runs on: `http://localhost:3001`
-
-### Start Frontend
-
-```
+```bash
 npm run dev
 ```
 
-Runs on: `http://localhost:5173`
+Make sure MetaMask is connected to the **Sepolia network**.
+Ensure the Relayer Wallet holds sepoliaETH.
 
 ---
 
-## Environment Configuration
+# Testing
 
-In `App.jsx`:
+The `tests` directory contains scripts for experimenting with batching behavior and comparing gas costs.
 
-* `ETHERSCAN_API_KEY` → Required for ABI fetching
-* `CHAIN_ID` → Currently set to Sepolia (11155111)
-* `RELAYER_URL` → Backend endpoint
+Create a `.env` file:
 
----
+```
 
-## Important Notes
+RPC_URL=your_rpc_endpoint
+RELAYER_PRIVATE_KEY=your_private_key
+CONTRACT_ADDRESS=deployed_contract_address
+```
 
-* Never expose your relayer private key publicly
-* Ensure correct network (Sepolia/Mainnet)
-* Contract must support batch execution logic
-* Nonce validation is minimal → needs improvement for production
 
----
+Run tests using:
 
-## Possible Improvements
-
-* Add nonce validation before submission
-* UI enhancements (better UX for batching)
-* Error handling and retry logic
-* Support multiple networks
-* Add transaction history
-* Deploy backend to cloud (AWS/Render)
+```bash
+cd tests
+npm install
+npm run start
+```
 
 ---
 
-## Use Cases
+# Security Considerations
 
-* Gas optimization
-* DeFi batch operations
-* DAO voting actions
-* NFT minting batches
-
----
-
-## Conclusion
-
-This project demonstrates a **gas-abstracted Web3 interaction model** using a relayer and batch execution. It is a strong foundation for building advanced dApps with improved user experience.
+* **Nonce-based replay protection**
+* **Deadline validation for signed batches**
+* **EIP-712 signature verification**
+* **Transaction simulation before execution**
+* Relayer cannot modify transaction data without invalidating the signature
 
 ---
+
+# License
+
+MIT License
+
+

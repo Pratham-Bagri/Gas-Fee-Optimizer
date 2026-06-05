@@ -1,0 +1,12 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/relay",
+      "destination": "http://34.61.229.163:3001/relay"
+    },
+    {
+      "source": "/api/:path*",
+      "destination": "http://34.61.229.163:3001/:path*"
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "name": "relayer",
+  "version": "1.0.0",
+  "description": "calls batching contract",
+  "main": "relayer.js",
+  "scripts": {
+    "start": "node relayer.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "ethers": "^6.11.0",
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.0"
+  },
+  "author": "kriti-web3",
+  "license": "MIT"
+}
